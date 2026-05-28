@@ -1,5 +1,4 @@
-sb_secret_S81eg6K9zm-vaxcm-nXczA_x_NLXONB
-sb_publishable_Owm44OUVKv03nUno2yUOag_IC0f88y4
+
 (function ($) {
     "use strict";
 
