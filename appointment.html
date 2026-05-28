@@ -127,7 +127,35 @@
         }
     </style>
 </head>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
+<script>
+const supabaseUrl = "tyathflgpgconjnfqoof";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR5YXRoZmxncGdjb25qbmZxb29mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5MjE0NDMsImV4cCI6MjA5NTQ5NzQ0M30.oILSnMy8i2hGWdRpX4bAiAraLCSF9Gv9ekqKEfFpk5g";
+
+const client = supabase.createClient(supabaseUrl, supabaseKey);
+
+document.getElementById("bookingForm")
+.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const name = document.getElementById("name").value;
+  const date = document.getElementById("date").value;
+
+  const { data, error } = await client
+    .from("appointments")
+    .insert([
+      { name, date }
+    ]);
+
+  if(error){
+    alert("Error saving data");
+    console.log(error);
+  } else {
+    alert("Appointment booked!");
+  }
+});
+</script>
 <body>
 
     <header>
