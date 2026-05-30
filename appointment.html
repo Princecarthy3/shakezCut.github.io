@@ -127,41 +127,45 @@
         }
     </style>
 </head>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const supabaseUrl = "https://vgqyzscgvkjqjfifdntt.supabase.co";
-const supabaseKey = "sb_publishable_1opFP-iypYXnl4Y3Uxhp0A_PFptl06o";
+const supabaseUrl = "YOUR_PROJECT_URL";
+const supabaseKey = "YOUR_ANON_KEY";
 
-const client = supabase.createClient(supabaseUrl, supabaseKey);
+const supabase = window.supabase.createClient(
+    supabaseUrl,
+    supabaseKey
+);
 
-document.getElementById("appointmentForm")
+document
+.getElementById("appointmentForm")
 .addEventListener("submit", async (e) => {
-  e.preventDefault();
 
-  const form = e.target;
+    e.preventDefault();
 
+    const form = e.target;
 
-  const { data, error } = await supabase
-    .from("appointments")
-    .insert([
-      { 
+    const { error } = await supabase
+        .from("appointments")
+        .insert([
+            {
                 full_name: form.full_name.value,
                 email: form.email.value,
                 phone: form.phone.value,
                 service: form.service.value,
                 appointment_date: form.appointment_date.value,
                 appointment_time: form.appointment_time.value,
-                notes: form.notes.value }
-    ]);
+                notes: form.notes.value
+            }
+        ]);
 
-  if(error){
-    alert("Booking Failed");
-    console.error(error);
-  } else {
-    alert("Appointment booked successfully!");
-    form.reset()
-  }
+    if (error) {
+        alert("Booking failed!");
+        console.error(error);
+    } else {
+        alert("Appointment booked successfully!");
+        form.reset();
+    }
 });
 </script>
 <body>
