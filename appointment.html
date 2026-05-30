@@ -186,10 +186,9 @@ const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("appointmentForm");
+const form = document.getElementById("appointmentForm");
 
-    form.addEventListener("submit", async (e) => {
+form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     // 1. Save to Supabase
@@ -231,6 +230,5 @@ document.addEventListener("DOMContentLoaded", () => {
     form.reset();
 });
 </script>
-
 </body>
 </html>
