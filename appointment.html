@@ -135,24 +135,32 @@ const supabaseKey = "sb_publishable_1opFP-iypYXnl4Y3Uxhp0A_PFptl06o";
 
 const client = supabase.createClient(supabaseUrl, supabaseKey);
 
-document.getElementById("bookingForm")
+document.getElementById("appointmentForm")
 .addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const name = document.getElementById("name").value;
-  const date = document.getElementById("date").value;
+  const form = e.target;
 
-  const { data, error } = await client
+
+  const { data, error } = await supabase
     .from("appointments")
     .insert([
-      { name, date }
+      { 
+                full_name: form.full_name.value,
+                email: form.email.value,
+                phone: form.phone.value,
+                service: form.service.value,
+                appointment_date: form.appointment_date.value,
+                appointment_time: form.appointment_time.value,
+                notes: form.notes.value }
     ]);
 
   if(error){
-    alert("Error saving data");
-    console.log(error);
+    alert("Booking Failed");
+    console.error(error);
   } else {
-    alert("Appointment booked!");
+    alert("Appointment booked successfully!");
+    form.reset()
   }
 });
 </script>
