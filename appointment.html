@@ -174,30 +174,30 @@ document.getElementById("bookingForm")
         <div class="appointment-form">
             <h2>Book Appointment</h2>
 
-            <form method="POST" netlify>
-                <input type="text" placeholder="Full Name" required>
+           <form name="appointment" method="POST" data-netlify="true">
+    <input type="text" name="full_name" placeholder="Full Name" required>
 
-                <input type="email" placeholder="Email Address" required>
+    <input type="email" name="email" placeholder="Email Address" required>
 
-                <input type="tel" placeholder="Phone Number" maxlength="10"  required>
+    <input type="tel" name="phone" placeholder="Phone Number" maxlength="10" required>
 
-                <select required>
-                    <option value="">Select Service</option>
-                    <option>Haircut</option>
-                    <option>Beard Trim</option>
-                    <option>Hair Coloring</option>
-                    <option>Kids Haircut</option>
-                    <option>VIP Grooming</option>
-                </select>
+    <select name="service" required>
+        <option value="">Select Service</option>
+        <option value="Haircut">Haircut</option>
+        <option value="Beard Trim">Beard Trim</option>
+        <option value="Hair Coloring">Hair Coloring</option>
+        <option value="Kids Haircut">Kids Haircut</option>
+        <option value="VIP Grooming">VIP Grooming</option>
+    </select>
 
-                <input type="date" required>
+    <input type="date" name="appointment_date" required>
 
-                <input type="time" required>
+    <input type="time" name="appointment_time" required>
 
-                <textarea placeholder="Additional Notes"></textarea>
+    <textarea name="notes" placeholder="Additional Notes"></textarea>
 
-                <button type="submit">Book Now</button>
-            </form>
+    <button type="submit">Book Now</button>
+</form>
         </div>
 
     </section>
