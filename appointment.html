@@ -187,56 +187,49 @@ const supabaseKey = "sb_publishable_1opFP-iypYXnl4Y3Uxhp0A_PFptl06o";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const form = document.getElementById("appointmentForm");
-
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  // 1. Save to Supabase
+  const payload = {
+    full_name: form.full_name.value,
+    email: form.email.value,
+    phone: form.phone.value,
+    service: form.service.value,
+    appointment_date: form.appointment_date.value,
+    appointment_time: form.appointment_time.value,
+    notes: form.notes.value
+  };
+
+  console.log("FINAL PAYLOAD:", payload);
+
+  // 1. Save to Supabase FIRST
   const { error } = await supabase
     .from("appointments")
-    .insert([{
-      full_name: form.full_name.value,
-      email: form.email.value,
-      phone: form.phone.value,
-      service: form.service.value,
-      appointment_date: form.appointment_date.value,
-      appointment_time: form.appointment_time.value,
-      notes: form.notes.value
-    }]);
+    .insert([payload]);
 
   if (error) {
     alert("Booking failed: " + error.message);
     return;
   }
 
-  // 2. Send email via Edge Function
- const payload = {
-  full_name: form.full_name.value,
-  email: form.email.value,
-  phone: form.phone.value,
-  service: form.service.value,
-  appointment_date: form.appointment_date.value,
-  appointment_time: form.appointment_time.value,
-  notes: form.notes.value
-};
+  // 2. ONLY AFTER SUCCESS → send email
+  const res = await fetch(
+    "https://vgqyzscgvkjqjfifdntt.supabase.co/functions/v1/send-booking-email",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    }
+  );
 
-console.log("SENDING:", payload);
+  const text = await res.text();
+  console.log("FUNCTION RESPONSE:", text);
 
-const res = await fetch(
-  "https://vgqyzscgvkjqjfifdntt.supabase.co/functions/v1/send-booking-email",
-  {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(payload)
-  }
-);
-
-const text = await res.text();
-console.log("FUNCTION RESPONSE:", text);
   alert("Appointment booked successfully!");
   form.reset();
+});
 });
 </script>
 </body>
