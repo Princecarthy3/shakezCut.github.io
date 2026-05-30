@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Book Appointment | Shakez Cut</title>
     <link rel="icon" href="img/favicon.png">
+
     <style>
         *{
             margin:0;
@@ -66,7 +67,6 @@
             background:#1b1b1b;
             padding:35px;
             border-radius:15px;
-            box-shadow:0 0 15px rgba(0,0,0,0.5);
         }
 
         .appointment-form h2{
@@ -80,9 +80,7 @@
             flex-direction:column;
         }
 
-        input,
-        select,
-        textarea{
+        input, select, textarea{
             margin-bottom:18px;
             padding:14px;
             border:none;
@@ -105,7 +103,6 @@
             font-size:18px;
             cursor:pointer;
             font-weight:bold;
-            transition:0.3s;
         }
 
         button:hover{
@@ -120,36 +117,84 @@
             margin-top:40px;
         }
 
-        @media(max-width:768px){
-            header h1{
-                font-size:30px;
-            }
+        a{
+            display:block;
+            text-align:center;
+            margin:20px 0;
+            color:#d4af37;
+            text-decoration:none;
         }
     </style>
 </head>
 
+<body>
+
+<header>
+    <div class="container">
+        <h1>Shakez Cut</h1>
+        <p>Book Your Haircut Appointment Easily</p>
+    </div>
+</header>
+
+<section class="appointment-section container">
+
+    <div class="appointment-image">
+        <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?q=80&w=1200&auto=format&fit=crop" alt="Barber Shop">
+    </div>
+
+    <div class="appointment-form">
+        <h2>Book Appointment</h2>
+
+        <form id="appointmentForm">
+            <input type="text" name="full_name" placeholder="Full Name" required>
+
+            <input type="email" name="email" placeholder="Email Address" required>
+
+            <input type="tel" name="phone" placeholder="Phone Number" maxlength="10" required>
+
+            <select name="service" required>
+                <option value="">Select Service</option>
+                <option value="Haircut">Haircut</option>
+                <option value="Beard Trim">Beard Trim</option>
+                <option value="Hair Coloring">Hair Coloring</option>
+            </select>
+
+            <input type="date" name="appointment_date" required>
+
+            <input type="time" name="appointment_time" required>
+
+            <textarea name="notes" placeholder="Additional Notes"></textarea>
+
+            <button type="submit">Book Now</button>
+        </form>
+    </div>
+
+</section>
+
+<a href="index.html"><i>Back to Home Page</i></a>
+
+<footer>
+    <p>© 2026 Shakez Cut | All Rights Reserved</p>
+</footer>
+
+<!-- SUPABASE SCRIPT -->
 <script type="module">
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
 const supabaseUrl = "https://vgqyzscgvkjqjfifdntt.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZncXl6c2NndmtqcWpmaWZkbnR0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5MjE4MTksImV4cCI6MjA5NTQ5NzgxOX0.muvKaQn6VThRawkusWtT1SsnSBeZg6d8J0-kcXFBBx8";
+const supabaseKey = "YOUR_SUPABASE_ANON_KEY";
 
-const supabase = window.supabase.createClient(
-    supabaseUrl,
-    supabaseKey
-);
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-document
-.getElementById("appointmentForm")
-.addEventListener("submit", async (e) => {
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("appointmentForm");
 
-    e.preventDefault();
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-    const form = e.target;
-
-    const { error } = await supabase
-        .from("appointments")
-        .insert([
-            {
+        const { error } = await supabase
+            .from("appointments")
+            .insert([{
                 full_name: form.full_name.value,
                 email: form.email.value,
                 phone: form.phone.value,
@@ -157,68 +202,18 @@ document
                 appointment_date: form.appointment_date.value,
                 appointment_time: form.appointment_time.value,
                 notes: form.notes.value
-            }
-        ]);
+            }]);
 
-    if (error) {
-        alert("Booking failed!");
-        console.error(error);
-    } else {
-        alert("Appointment booked successfully!");
-        form.reset();
-    }
+        if (error) {
+            console.error(error);
+            alert("Booking failed: " + error.message);
+        } else {
+            alert("Appointment booked successfully!");
+            form.reset();
+        }
+    });
 });
 </script>
-<body>
-
-    <header>
-        <div class="container">
-            <h1>Shakez Cut</h1>
-            <p>Book Your Haircut Appointment Easily</p>
-        </div>
-    </header>
-
-    <section class="appointment-section container">
-
-        <div class="appointment-image">
-            <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?q=80&w=1200&auto=format&fit=crop" alt="Barber Shop">
-        </div>
-
-        <div class="appointment-form">
-            <h2>Book Appointment</h2>
-
-    <form name="appointment" method=""POST  >
-    <input type="text" name="full_name" placeholder="Full Name" required>
-
-    <input type="email" name="email" placeholder="Email Address" required>
-
-    <input type="tel" name="phone" placeholder="Phone Number" maxlength="10" required>
-
-    <select name="service" required>
-        <option value="">Select Service</option>
-        <option value="Haircut">Haircut</option>
-        <option value="Beard Trim">Beard Trim</option>
-        <option value="Hair Coloring">Hair Coloring</option>
-        <option value="Copy Good">Copy Good</option>
-    </select>
-
-    <input type="date" name="appointment_date" required>
-
-    <input type="time" name="appointment_time" required>
-
-    <textarea name="notes" placeholder="Additional Notes"></textarea>
-
-    <button type="submit">Book Now</button>
-</form>
-        </div>
-
-    </section>
-            <a href="index.html" style="color: #d4af37;
-            text-align: center;"
-            > <i>Back to Home Page</i></a>
-    <footer>
-        <p>© 2026 Shakez Cut | All Rights Reserved</p>
-    </footer>
 
 </body>
 </html>
