@@ -190,28 +190,45 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("appointmentForm");
 
     form.addEventListener("submit", async (e) => {
-        e.preventDefault();
+    e.preventDefault();
 
-        const { error } = await supabase
-            .from("appointments")
-            .insert([{
-                full_name: form.full_name.value,
-                email: form.email.value,
-                phone: form.phone.value,
-                service: form.service.value,
-                appointment_date: form.appointment_date.value,
-                appointment_time: form.appointment_time.value,
-                notes: form.notes.value
-            }]);
+    // 1. Save to Supabase
+    const { error } = await supabase
+        .from("appointments")
+        .insert([{
+            full_name: form.full_name.value,
+            email: form.email.value,
+            phone: form.phone.value,
+            service: form.service.value,
+            appointment_date: form.appointment_date.value,
+            appointment_time: form.appointment_time.value,
+            notes: form.notes.value
+        }]);
 
-        if (error) {
-            console.error(error);
-            alert("Booking failed: " + error.message);
-        } else {
-            alert("Appointment booked successfully!");
-            form.reset();
-        }
+    if (error) {
+        alert("Booking failed: " + error.message);
+        return;
+    }
+
+    // 2. Send email via Edge Function
+    await fetch("https://vgqyzscgvkjqjfifdntt.supabase.co/functions/v1/send-booking-email", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            full_name: form.full_name.value,
+            email: form.email.value,
+            phone: form.phone.value,
+            service: form.service.value,
+            appointment_date: form.appointment_date.value,
+            appointment_time: form.appointment_time.value,
+            notes: form.notes.value
+        })
     });
+
+    alert("Appointment booked successfully!");
+    form.reset();
 });
 </script>
 
