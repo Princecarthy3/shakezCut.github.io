@@ -130,8 +130,8 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
 <script>
-const supabaseUrl = "tyathflgpgconjnfqoof";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR5YXRoZmxncGdjb25qbmZxb29mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5MjE0NDMsImV4cCI6MjA5NTQ5NzQ0M30.oILSnMy8i2hGWdRpX4bAiAraLCSF9Gv9ekqKEfFpk5g";
+const supabaseUrl = "https://vgqyzscgvkjqjfifdntt.supabase.co";
+const supabaseKey = "sb_publishable_1opFP-iypYXnl4Y3Uxhp0A_PFptl06o";
 
 const client = supabase.createClient(supabaseUrl, supabaseKey);
 
@@ -174,7 +174,7 @@ document.getElementById("bookingForm")
         <div class="appointment-form">
             <h2>Book Appointment</h2>
 
-           <form name="appointment" method="POST" data-netlify="true">
+           <form name="appointment" method="POST" >
     <input type="text" name="full_name" placeholder="Full Name" required>
 
     <input type="email" name="email" placeholder="Email Address" required>
@@ -186,8 +186,7 @@ document.getElementById("bookingForm")
         <option value="Haircut">Haircut</option>
         <option value="Beard Trim">Beard Trim</option>
         <option value="Hair Coloring">Hair Coloring</option>
-        <option value="Kids Haircut">Kids Haircut</option>
-        <option value="VIP Grooming">VIP Grooming</option>
+        <option value="Copy Good">Copy Good</option>
     </select>
 
     <input type="date" name="appointment_date" required>
